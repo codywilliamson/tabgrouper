@@ -2,11 +2,16 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
         id: 'groupTabs',
         title: 'Group tabs by domain',
-        contexts: ['page'] 
+        contexts: ['page']
     });
     chrome.contextMenus.create({
         id: 'ungroupTabs',
         title: 'Ungroup all tabs',
+        contexts: ['page']
+    });
+    chrome.contextMenus.create({
+        id: 'sortNonGroupedTabsAz',
+        title: 'Sort non-grouped tab titles A-Z',
         contexts: ['page']
     });
 });
@@ -16,6 +21,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         groupTabs();
     } else if (info.menuItemId === 'ungroupTabs') {
         ungroupTabs();
+    } else if (info.menuItemId === 'sortNonGroupedTabsAz') {
+        sortTabsAlphabetically();
     }
 });
 
@@ -47,6 +54,24 @@ function groupTabs() {
                     tabIds: groups[domain]
                 });
             }
+        }
+    });
+}
+
+function sortTabsAlphabetically() {
+    console.log('fired');
+    chrome.tabs.query({}, function (tabs) {
+        // filter out tabs that are in a group
+        let ungroupedTabs = tabs.filter(tab => tab.groupId === undefined || tab.groupId === -1);
+        console.log(ungroupedTabs);
+        // sort ungrouped tabs alphabetically by their title
+        ungroupedTabs.sort((a, b) => a.title.localeCompare(b.title));
+
+        // for each sorted tab
+        for (let i = 0; i < ungroupedTabs.length; i++) {
+            // update the tab's index to its position in the sorted array
+            chrome.tabs.move(ungroupedTabs[i].id, {index: i});
+            console.log(`Moving ${ungroupedTabs[i].id} to index: ${i}`);
         }
     });
 }

@@ -14,6 +14,14 @@ document.getElementById('scrambleTabsBtn').addEventListener('click', function() 
     chrome.runtime.sendMessage({action: 'scrambleTabs'});
 });
 
+document.getElementById('collapseGroupsBtn').addEventListener('click', function() {
+    chrome.runtime.sendMessage({action: 'collapseGroups'});
+});
+
+document.getElementById('expandGroupsBtn').addEventListener('click', function() {
+    chrome.runtime.sendMessage({action: 'expandGroups'});
+});
+
 document.addEventListener('DOMContentLoaded', function () {
     chrome.management.getSelf(function(info) {
         if (info.installType === 'development') {

@@ -2,29 +2,37 @@ const ACTIONS = {
     GROUP_TABS: 'groupTabs',
     UNGROUP_TABS: 'ungroupTabs',
     SORT_NON_GROUPED_TABS: 'sortNonGroupedTabsAz',
-    SCRAMBLE_TABS: 'scrambleTabs'
+    SCRAMBLE_TABS: 'scrambleTabs',
+    COLLAPSE_GROUPS: 'collapseGroups',
+    EXPAND_GROUPS: 'expandGroups'
 };
 
 chrome.runtime.onInstalled.addListener(() => {
-    // Create a context menu option to group tabs
     chrome.contextMenus.create({
         id: ACTIONS.GROUP_TABS,
         title: 'Group tabs by domain',
         contexts: ['page']
     });
-    // Create a context menu option to ungroup tabs
     chrome.contextMenus.create({
         id: ACTIONS.UNGROUP_TABS,
         title: 'Ungroup all tabs',
         contexts: ['page']
     });
-    // Create a context menu option to sort tabs
     chrome.contextMenus.create({
         id: ACTIONS.SORT_NON_GROUPED_TABS,
         title: 'Sort non-grouped tab titles A-Z',
         contexts: ['page']
     });
-    // Create a context menu option to scramble tabs in developer mode
+    chrome.contextMenus.create({
+        id: ACTIONS.COLLAPSE_GROUPS,
+        title: 'Collapse all groups',
+        contexts: ['page']
+    });
+    chrome.contextMenus.create({
+        id: ACTIONS.EXPAND_GROUPS,
+        title: 'Expand all groups',
+        contexts: ['page']
+    });
     chrome.management.getSelf(function (info) {
         if (info.installType === 'development') {
             chrome.contextMenus.create({
@@ -36,7 +44,6 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 });
 
-// Listen for context menu clicks
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     switch (info.menuItemId) {
         case ACTIONS.GROUP_TABS:
@@ -51,12 +58,17 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         case ACTIONS.SCRAMBLE_TABS:
             scrambleTabs();
             break;
+        case ACTIONS.COLLAPSE_GROUPS:
+            collapseAllGroups();
+            break;
+        case ACTIONS.EXPAND_GROUPS:
+            expandAllGroups();
+            break;
         default:
             console.error(`Unrecognized action: ${info.menuItemId}`);
     }
 });
 
-// Listen for command inputs
 chrome.commands.onCommand.addListener((command) => {
     switch (command) {
         case 'group_tabs':
@@ -94,6 +106,15 @@ chrome.runtime.onMessage.addListener(
                 break;
             case 'scrambleTabs':
                 scrambleTabs();
+                break;
+            case 'collapseGroups':
+                collapseAllGroups();
+                break;
+            case 'expandGroups':
+                expandAllGroups();
+                break;
+            default:
+                console.error("Undefined request.");
                 break;
         }
     }
@@ -153,10 +174,10 @@ function getTopLevelDomain(hostname) {
         let secondLevelDomain = parts[1];
 
         // Check if second level domain is a common one
-        if (secondLevelDomain === 'co' || 
-            secondLevelDomain === 'com' || 
-            secondLevelDomain === 'gov' || 
-            secondLevelDomain === 'edu' || 
+        if (secondLevelDomain === 'co' ||
+            secondLevelDomain === 'com' ||
+            secondLevelDomain === 'gov' ||
+            secondLevelDomain === 'edu' ||
             secondLevelDomain === 'ac') {
             // Use the third level domain, if available
             let thirdLevelDomain = parts[2];
@@ -231,6 +252,40 @@ function scrambleTabs() {
             let randomIndex = Math.floor(Math.random() * tabs.length);
 
             chrome.tabs.move(tabs[i].id, { index: randomIndex }, function (tab) {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError);
+                }
+            });
+        }
+    });
+}
+
+// Function to collapse all groups
+function collapseAllGroups() {
+    chrome.tabs.query({}, function (tabs) {
+        // Retrieve all unique group ids from all tabs
+        const groupIds = [...new Set(tabs.filter(tab => tab.groupId > -1).map(tab => tab.groupId))];
+
+        // Iterate through each group and collapse it
+        for (let groupId of groupIds) {
+            chrome.tabGroups.update(groupId, { collapsed: true }, function () {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError);
+                }
+            });
+        }
+    });
+}
+
+// Function to expand all groups
+function expandAllGroups() {
+    chrome.tabs.query({}, function (tabs) {
+        // Retrieve all unique group ids from all tabs
+        const groupIds = [...new Set(tabs.filter(tab => tab.groupId > -1).map(tab => tab.groupId))];
+
+        // Iterate through each group and expand it
+        for (let groupId of groupIds) {
+            chrome.tabGroups.update(groupId, { collapsed: false }, function () {
                 if (chrome.runtime.lastError) {
                     console.error(chrome.runtime.lastError);
                 }

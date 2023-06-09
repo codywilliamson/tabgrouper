@@ -1,27 +1,44 @@
 # Tab Grouper
 
-Tab Grouper is a Microsoft Edge extension that allows you to easily group your open tabs by domain. With a simple click or keyboard shortcut, you can organize your workspace and enhance your productivity.
+Tab Grouper is a Microsoft Edge extension designed to enhance tab management by providing capabilities to group tabs by domain, ungroup tabs, sort non-grouped tabs alphabetically, and a special feature for developers to scramble tabs.
+
+![Tab Grouper Logo](./assets/promo.png)
 
 ## Features
 
-- Group tabs by domain: With a right-click on any webpage or by using the keyboard shortcut (Ctrl+Shift+Y on Windows/Linux, MacCtrl+Shift+Y on Mac), all open tabs will be grouped according to their domain. Only domains with more than two open tabs will be grouped.
+- **Group Tabs**: Groups all the open tabs by their domain.
+- **Ungroup Tabs**: Ungroups all the grouped tabs.
+- **Sort Tabs**: Sorts all non-grouped tabs alphabetically by their title.
+- **Scramble Tabs** (Developer Mode): Randomizes the order of the tabs.
 
-- Ungroup all tabs: With a right-click on any webpage, you can ungroup all currently grouped tabs.
-
-## Installation
-
-1. Download or clone this repository to your local machine.
-
-2. Open Microsoft Edge and navigate to `edge://extensions`.
-
-3. Enable Developer mode by toggling the switch at the bottom-right of the page.
-
-4. Click the "Load unpacked" button that appears at the top left of the page.
-
-5. In the file dialog that appears, navigate to the directory containing the Tab Grouper extension, then click the "Select Folder" button.
-
-The Tab Grouper extension should now be loaded into Edge, and you should see it appear in the list of extensions on the `edge://extensions` page.
+These features can be accessed from the extension popup or context menu that appears on right-click within any webpage. Keyboard shortcuts are also available for these features for quicker access.
 
 ## Usage
 
-To group tabs by domain, right-click on any webpage and select "Group tabs by domain", or use the keyboard shortcut. To ungroup all tabs, right-click on any webpage and select "Ungroup all tabs".
+After installing the extension, you can access its functionalities by either:
+
+1. Clicking on the extension icon in the toolbar and using the popup UI.
+2. Right-clicking on any webpage to bring up the context menu and selecting the desired option.
+3. Using the keyboard shortcuts:
+    - Group Tabs: Alt+Shift+M
+    - Ungroup Tabs: Alt+Shift+J
+    - Sort Tabs: Alt+Shift+H
+    - Scramble Tabs (Developer Mode): Alt+Shift+U
+
+## Installation
+
+For installation, simply head over to the Microsoft Edge extensions store, search for "Tab Grouper", and install it. Once installed, the extension will appear in your toolbar.
+
+## Development
+
+The extension is developed using standard web technologies: HTML, CSS, and JavaScript. It's structured into a manifest file, a background script (`tabGrouper.js`), an extension popup (`popup.html` and `popup.js`), and asset files.
+
+If you wish to contribute, kindly fork the repository, make your changes, and submit a pull request.
+
+## Feedback & Support
+
+For any bugs or feature suggestions, please open an issue on GitHub. If you find this extension useful and wish to support the development, consider visiting the cashapp link found in the extension popup.
+
+## License
+
+MIT

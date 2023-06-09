@@ -5,33 +5,41 @@
     "description": "Enhance tab management by grouping tabs by domain, ungrouping tabs, and sorting non-grouped tabs alphabetically.",
     "permissions": ["tabs", "contextMenus", "storage", "tabGroups"],
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "tabGrouper.js"
     },
     "action": {
         "default_title": "Group Tabs",
         "default_popup": "popup.html"
     },
+    "icons": {
+        "16": "assets/logo16.png",
+        "48": "assets/logo48.png",
+        "128": "assets/logo128.png"
+      },
     "commands": {
         "group_tabs": {
             "suggested_key": {
-                "default": "Ctrl+Shift+Y",
-                "mac": "MacCtrl+Shift+Y"
+                "default": "Alt+Shift+M"
             },
             "description": "Group tabs by domain"
         },
         "ungroup_tabs": {
             "suggested_key": {
-                "default": "Ctrl+Shift+U",
-                "mac": "MacCtrl+Shift+U"
+                "default": "Alt+Shift+J"
             },
             "description": "Ungroup all tabs"
         },
         "sort_tabs": {
             "suggested_key": {
-                "default": "Ctrl+Shift+A",
-                "mac": "MacCtrl+Shift+A"
+                "default": "Alt+Shift+H"
             },
             "description": "Sort non-grouped tab titles A-Z"
+        },
+        "scramble_tabs": {
+            "suggested_key": {
+                "default": "Alt+Shift+U"
+            },
+            "description": "Scramble tabs in development mode"
         }
     }
 }

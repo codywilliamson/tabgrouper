@@ -1,33 +1,23 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.getElementById('groupTabsBtn').addEventListener('click', function() {
+    chrome.runtime.sendMessage({action: 'groupTabs'});
+});
 
-    // Check if extension is in dev mode and show scramble button if so
+document.getElementById('ungroupTabsBtn').addEventListener('click', function() {
+    chrome.runtime.sendMessage({action: 'ungroupTabs'});
+});
+
+document.getElementById('sortTabsBtn').addEventListener('click', function() {
+    chrome.runtime.sendMessage({action: 'sortTabs'});
+});
+
+document.getElementById('scrambleTabsBtn').addEventListener('click', function() {
+    chrome.runtime.sendMessage({action: 'scrambleTabs'});
+});
+
+document.addEventListener('DOMContentLoaded', function () {
     chrome.management.getSelf(function(info) {
         if (info.installType === 'development') {
-            document.getElementById('scrambleTabsBtn').style.display = 'block';
+            document.getElementById('DevMode').style.display = 'block';
         }
     });
 });
-
-document.getElementById('groupTabsBtn').onclick = function() {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {action: 'groupTabs'});
-    });
-}
-
-document.getElementById('ungroupTabsBtn').onclick = function() {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {action: 'ungroupTabs'});
-    });
-}
-
-document.getElementById('sortTabsBtn').onclick = function() {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {action: 'sortTabs'});
-    });
-}
-
-document.getElementById('scrambleTabsBtn').onclick = function() {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {action: 'scrambleTabs'});
-    });
-}

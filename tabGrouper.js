@@ -1,124 +1,100 @@
 const ACTIONS = {
-    GROUP_TABS: 'groupTabs',
-    UNGROUP_TABS: 'ungroupTabs',
-    SORT_NON_GROUPED_TABS: 'sortNonGroupedTabsAz',
-    SCRAMBLE_TABS: 'scrambleTabs',
-    COLLAPSE_GROUPS: 'collapseGroups',
-    EXPAND_GROUPS: 'expandGroups'
+    GROUP_TABS: {
+        id: 'groupTabs',
+        title: 'Group tabs by domain',
+        func: groupTabs
+    },
+    UNGROUP_TABS: {
+        id: 'ungroupTabs',
+        title: 'Ungroup all tabs',
+        func: ungroupTabs
+    },
+    SORT_NON_GROUPED_TABS: {
+        id: 'sortNonGroupedTabsAz',
+        title: 'Sort non-grouped tab titles A-Z',
+        func: sortNonGroupedTabsAlphabetically
+    },
+    SCRAMBLE_TABS: {
+        id: 'scrambleTabs',
+        title: 'Scramble Tabs',
+        func: scrambleTabs
+    },
+    COLLAPSE_GROUPS: {
+        id: 'collapseGroups',
+        title: 'Collapse all groups',
+        func: collapseAllGroups
+    },
+    EXPAND_GROUPS: {
+        id: 'expandGroups',
+        title: 'Expand all groups',
+        func: expandAllGroups
+    },
+    CLOSE_ALL_TABS: {
+        id: 'closeAllTabs',
+        title: 'Close all tabs',
+        func: closeAllTabs
+    },
+    GROUP_BY_SUBDOMAIN: {
+        id: 'groupBySubdomain',
+        title: 'Group tabs by subdomain',
+        func: groupBySubdomain
+    }
 };
 
+
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.contextMenus.create({
-        id: ACTIONS.GROUP_TABS,
-        title: 'Group tabs by domain',
-        contexts: ['page']
-    });
-    chrome.contextMenus.create({
-        id: ACTIONS.UNGROUP_TABS,
-        title: 'Ungroup all tabs',
-        contexts: ['page']
-    });
-    chrome.contextMenus.create({
-        id: ACTIONS.SORT_NON_GROUPED_TABS,
-        title: 'Sort non-grouped tab titles A-Z',
-        contexts: ['page']
-    });
-    chrome.contextMenus.create({
-        id: ACTIONS.COLLAPSE_GROUPS,
-        title: 'Collapse all groups',
-        contexts: ['page']
-    });
-    chrome.contextMenus.create({
-        id: ACTIONS.EXPAND_GROUPS,
-        title: 'Expand all groups',
-        contexts: ['page']
-    });
-    chrome.management.getSelf(function (info) {
-        if (info.installType === 'development') {
-            chrome.contextMenus.create({
-                id: 'scrambleTabs',
-                title: 'Dev Mode: Scramble Tabs',
-                contexts: ['page']
-            });
-        }
+    Object.values(ACTIONS).forEach(action => {
+        chrome.contextMenus.create({
+            id: action.id,
+            title: action.title,
+            contexts: ['page']
+        });
     });
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-    switch (info.menuItemId) {
-        case ACTIONS.GROUP_TABS:
-            groupTabs();
-            break;
-        case ACTIONS.UNGROUP_TABS:
-            ungroupTabs();
-            break;
-        case ACTIONS.SORT_NON_GROUPED_TABS:
-            sortNonGroupedTabsAlphabetically();
-            break;
-        case ACTIONS.SCRAMBLE_TABS:
-            scrambleTabs();
-            break;
-        case ACTIONS.COLLAPSE_GROUPS:
-            collapseAllGroups();
-            break;
-        case ACTIONS.EXPAND_GROUPS:
-            expandAllGroups();
-            break;
-        default:
-            console.error(`Unrecognized action: ${info.menuItemId}`);
+    const action = Object.values(ACTIONS).find(action => action.id === info.menuItemId);
+    if (action) {
+        action.func();
+    } else {
+        console.error(`Unrecognized action: ${info.menuItemId}`);
     }
 });
 
 chrome.commands.onCommand.addListener((command) => {
-    switch (command) {
-        case 'group_tabs':
-            groupTabs();
-            break;
-        case 'ungroup_tabs':
-            ungroupTabs();
-            break;
-        case 'sort_tabs':
-            sortNonGroupedTabsAlphabetically();
-            break;
-        case 'scramble_tabs':
-            chrome.management.getSelf(function (info) {
-                if (info.installType === 'development') {
-                    scrambleTabs();
-                } else {
-
-                }
-            });
-            break;
+    const action = Object.values(ACTIONS).find(action => action.id === command);
+    if (action) {
+        action.func();
+    } else {
+        console.error(`Unrecognized command: ${command}`);
     }
 });
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-        switch (request.action) {
-            case 'groupTabs':
-                groupTabs();
-                break;
-            case 'ungroupTabs':
-                ungroupTabs();
-                break;
-            case 'sortTabs':
-                sortNonGroupedTabsAlphabetically();
-                break;
-            case 'scrambleTabs':
-                scrambleTabs();
-                break;
-            case 'collapseGroups':
-                collapseAllGroups();
-                break;
-            case 'expandGroups':
-                expandAllGroups();
-                break;
-            default:
-                console.error("Undefined request.");
-                break;
+        const action = Object.values(ACTIONS).find(action => action.id === request.action);
+        if (action) {
+            action.func();
+        } else {
+            console.error(`Undefined request: ${request.action}`);
         }
     }
 );
+
+chrome.notifications.onButtonClicked.addListener(function (notifId, btnIdx) {
+    if (notifId === "closeAllTabs") {
+        if (btnIdx === 0) { // The 'Confirm' button was clicked
+            chrome.tabs.query({}, function (tabs) {
+                const tabIds = tabs.map(tab => tab.id);
+                chrome.tabs.remove(tabIds, function () {
+                    if (chrome.runtime.lastError) {
+                        console.error(chrome.runtime.lastError);
+                    }
+                });
+            });
+        }
+    }
+});
 
 // Function to group tabs by domain
 function groupTabs() {
@@ -246,6 +222,8 @@ function sortByTitle(a, b) {
 
 // Function to scramble tabs
 function scrambleTabs() {
+    ungroupTabs();
+
     chrome.tabs.query({}, function (tabs) {
         for (let i = 0; i < tabs.length; i++) {
             // Generate a random index for each tab
@@ -292,4 +270,62 @@ function expandAllGroups() {
             });
         }
     });
+}
+
+function closeAllTabs() {
+    const notificationOptions = {
+        type: "basic",
+        iconUrl: "assets/logo16.png",
+        title: "Close all tabs?",
+        message: "Are you sure you want to close all tabs?",
+        buttons: [{ title: "Confirm" }, { title: "Cancel" }],
+        priority: 2,
+    };
+
+    chrome.notifications.create("closeAllTabs", notificationOptions);
+}
+
+// Function to group tabs by subdomain
+function groupBySubdomain() {
+    chrome.tabs.query({}, function (tabs) {
+        const groups = createSubdomainGroups(tabs);
+
+        for (let subdomain in groups) {
+            if (groups[subdomain].length > 1) {
+                chrome.tabs.group({
+                    createProperties: {},
+                    tabIds: groups[subdomain]
+                }, (groupId) => {
+                    if (chrome.runtime.lastError) {
+                        console.error(chrome.runtime.lastError);
+                    }
+                    chrome.tabGroups.update(groupId, { title: subdomain }, function (updatedGroup) {
+                        if (chrome.runtime.lastError) {
+                            console.error(chrome.runtime.lastError);
+                        }
+                    });
+                });
+            }
+        }
+
+        sortNonGroupedTabsAlphabetically();
+    });
+}
+
+// Function to create groups of tabs by subdomain
+function createSubdomainGroups(tabs) {
+    const groups = {};
+
+    for (let tab of tabs) {
+        const url = new URL(tab.url);
+        let subdomain = url.hostname;
+
+        if (!groups[subdomain]) {
+            groups[subdomain] = [];
+        }
+
+        groups[subdomain].push(tab.id);
+    }
+
+    return groups;
 }

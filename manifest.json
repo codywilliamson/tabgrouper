@@ -3,7 +3,7 @@
     "name": "Tab Grouper",
     "version": "1.0",
     "description": "Enhance tab management by grouping tabs by domain, ungrouping tabs, and sorting non-grouped tabs alphabetically.",
-    "permissions": ["tabs", "contextMenus", "storage", "tabGroups"],
+    "permissions": ["tabs", "contextMenus", "storage", "tabGroups", "notifications"],
     "background": {
         "service_worker": "tabGrouper.js"
     },

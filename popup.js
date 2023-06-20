@@ -1,31 +1,57 @@
-document.getElementById('groupTabsBtn').addEventListener('click', function() {
-    chrome.runtime.sendMessage({action: 'groupTabs'});
-});
+const ACTIONS = [
+    {
+        key: "groupTabs",
+        title: "Group",
+        icon: "fas fa-layer-group"
+    },
+    {
+        key: "ungroupTabs",
+        title: "Ungroup",
+        icon: "fas fa-object-ungroup"
+    },
+    {
+        key: "sortNonGroupedTabsAz",
+        title: "Sort A-Z",
+        icon: "fas fa-sort-alpha-down"
+    },
+    {
+        key: "scrambleTabs",
+        title: "Scramble",
+        icon: "fas fa-random"
+    },
+    {
+        key: "collapseGroups",
+        title: "Collapse",
+        icon: "fas fa-angle-up"
+    },
+    {
+        key: "expandGroups",
+        title: "Expand",
+        icon: "fas fa-angle-down"
+    },
+    {
+        key: "closeAllTabs",
+        title: "Close All",
+        icon: "fas fa-window-close"
+    },
+    {
+        key: "groupBySubdomain",
+        title: "Group Subdomains",
+        icon: "fas fa-sitemap"
+    },
+];
 
-document.getElementById('ungroupTabsBtn').addEventListener('click', function() {
-    chrome.runtime.sendMessage({action: 'ungroupTabs'});
-});
+const buttonContainer = document.getElementById('buttonContainer'); 
 
-document.getElementById('sortTabsBtn').addEventListener('click', function() {
-    chrome.runtime.sendMessage({action: 'sortTabs'});
-});
+ACTIONS.forEach((action) => {
+    const btn = document.createElement('button');
+    btn.id = `${action.key}Btn`;
+    
+    btn.innerHTML = `<i class="${action.icon}"></i> ${action.title}`;
 
-document.getElementById('scrambleTabsBtn').addEventListener('click', function() {
-    chrome.runtime.sendMessage({action: 'scrambleTabs'});
-});
-
-document.getElementById('collapseGroupsBtn').addEventListener('click', function() {
-    chrome.runtime.sendMessage({action: 'collapseGroups'});
-});
-
-document.getElementById('expandGroupsBtn').addEventListener('click', function() {
-    chrome.runtime.sendMessage({action: 'expandGroups'});
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    chrome.management.getSelf(function(info) {
-        if (info.installType === 'development') {
-            document.getElementById('DevMode').style.display = 'block';
-        }
+    btn.addEventListener('click', () => {
+        chrome.runtime.sendMessage({ action: action.key });
     });
+
+    buttonContainer.appendChild(btn);
 });

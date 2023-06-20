@@ -62,13 +62,16 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 chrome.commands.onCommand.addListener((command) => {
-    const action = Object.values(ACTIONS).find(action => action.id === command);
+    let actionKey = command.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+    
+    const action = ACTIONS[actionKey.toUpperCase()];
     if (action) {
         action.func();
     } else {
         console.error(`Unrecognized command: ${command}`);
     }
 });
+
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
@@ -120,6 +123,7 @@ function groupTabs() {
         }
 
         sortNonGroupedTabsAlphabetically();
+        collapseAllGroups();
     });
 }
 

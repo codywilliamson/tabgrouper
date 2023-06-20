@@ -10,6 +10,10 @@ Tab Grouper is a Microsoft Edge extension designed to enhance tab management by 
 - **Ungroup Tabs**: Ungroups all the grouped tabs.
 - **Sort Tabs**: Sorts all non-grouped tabs alphabetically by their title.
 - **Scramble Tabs** (Developer Mode): Randomizes the order of the tabs.
+- **Collapse Groups**: Collapses all tab groups.
+- **Expand Groups**: Expands all tab groups.
+- **Close All Tabs**: Closes all tabs.
+- **Group by Subdomain**: Groups tabs by subdomain.
 
 These features can be accessed from the extension popup or context menu that appears on right-click within any webpage. Keyboard shortcuts are also available for these features for quicker access.
 
@@ -27,7 +31,7 @@ After installing the extension, you can access its functionalities by either:
 
 ## Installation
 
-For installation, simply head over to the Microsoft Edge extensions store, search for "Tab Grouper", and install it. Once installed, the extension will appear in your toolbar.
+For installation, simply [click here](https://microsoftedge.microsoft.com/addons/detail/tab-grouper/cjamddajnhimgjogcgighnbaojgliccc) or head over to the Microsoft Edge extensions store, search for "Tab Grouper," and install it. Once installed, the extension will appear in your toolbar.
 
 ## Development
 

@@ -276,7 +276,7 @@ function closeAllTabs() {
     const notificationOptions = {
         type: "basic",
         iconUrl: "assets/logo16.png",
-        title: "Close all tabs?",
+        title: "Close all tabs",
         message: "Are you sure you want to close all tabs?",
         buttons: [{ title: "Confirm" }, { title: "Cancel" }],
         priority: 2,

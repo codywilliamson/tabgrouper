@@ -1,8 +1,5 @@
 param($version)
 
-# Change directory to the project root
-Set-Location ..
-
 # Call the increment_version script
 .\scripts\Increment-Version.ps1 -version $version
 

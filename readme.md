@@ -2,7 +2,7 @@
 
 Tab Grouper is a Microsoft Edge extension designed to enhance tab management.
 
-![Tab Grouper Logo](./assets/promo.png)
+![Tab Grouper Logo](./assets/tabGrouperMenuUpdate.png)
 
 ## Features
 

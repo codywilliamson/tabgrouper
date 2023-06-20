@@ -43,7 +43,7 @@ If you wish to contribute, kindly fork the repository, make your changes, and su
 - [ ] Exclude groups from being affected
 - [ ] Exclude tabs from being grouped
 - [ ] Options for default group state after (collapsed, expanded)
-- [ ] Sub-domain grouping
+- [x] Sub-domain grouping
 - [ ] Display inactive tabs
 - [ ] Organize collections (open & group collections)
 - [ ] UI updates

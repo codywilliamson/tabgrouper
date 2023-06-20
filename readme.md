@@ -39,15 +39,15 @@ The extension is developed using standard web technologies: HTML, CSS, and JavaS
 
 If you wish to contribute, kindly fork the repository, make your changes, and submit a pull request.
 
-## Upcoming Features 
-[] Exclude groups from being affected
-[] Exclude tabs from being grouped
-[] Options for default group state after (collapsed, expanded)
-[] Sub-domain grouping
-[] Display inactive tabs
-[] Organize collections (open & group collections)
-[] UI updates
-[] New logo
+## Upcoming Features
+- [ ] Exclude groups from being affected
+- [ ] Exclude tabs from being grouped
+- [ ] Options for default group state after (collapsed, expanded)
+- [ ] Sub-domain grouping
+- [ ] Display inactive tabs
+- [ ] Organize collections (open & group collections)
+- [ ] UI updates
+- [ ] New logo
 
 ## Feedback & Support
 

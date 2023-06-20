@@ -1,6 +1,6 @@
 # Tab Grouper
 
-Tab Grouper is a Microsoft Edge extension designed to enhance tab management by providing capabilities to group tabs by domain, ungroup tabs, sort non-grouped tabs alphabetically, and a special feature for developers to scramble tabs.
+Tab Grouper is a Microsoft Edge extension designed to enhance tab management.
 
 ![Tab Grouper Logo](./assets/promo.png)
 
@@ -9,13 +9,13 @@ Tab Grouper is a Microsoft Edge extension designed to enhance tab management by 
 - **Group Tabs**: Groups all the open tabs by their domain.
 - **Ungroup Tabs**: Ungroups all the grouped tabs.
 - **Sort Tabs**: Sorts all non-grouped tabs alphabetically by their title.
-- **Scramble Tabs** (Developer Mode): Randomizes the order of the tabs.
-- **Collapse Groups**: Collapses all tab groups.
-- **Expand Groups**: Expands all tab groups.
-- **Close All Tabs**: Closes all tabs.
 - **Group by Subdomain**: Groups tabs by subdomain.
+- **Scramble Tabs** (Developer Mode): Randomizes the order of the tabs.
+- **Collapse Groups**: Collapses all tab groups. (Access via extension popup)
+- **Expand Groups**: Expands all tab groups. (Access via extension popup)
+- **Close All Tabs**: Closes all tabs. (Access via extension popup)
 
-These features can be accessed from the extension popup or context menu that appears on right-click within any webpage. Keyboard shortcuts are also available for these features for quicker access.
+These features can be accessed from the extension popup or context menu that appears on right-click within any webpage. Keyboard shortcuts are also available for quicker access to some of these features.
 
 ## Usage
 
@@ -23,11 +23,11 @@ After installing the extension, you can access its functionalities by either:
 
 1. Clicking on the extension icon in the toolbar and using the popup UI.
 2. Right-clicking on any webpage to bring up the context menu and selecting the desired option.
-3. Using the keyboard shortcuts:
+3. Using the keyboard shortcuts for selected features:
     - Group Tabs: Alt+Shift+M
     - Ungroup Tabs: Alt+Shift+J
     - Sort Tabs: Alt+Shift+H
-    - Scramble Tabs (Developer Mode): Alt+Shift+U
+    - Group by Subdomain: Alt+Shift+P
 
 ## Installation
 

@@ -313,6 +313,7 @@ function groupBySubdomain() {
         }
 
         sortNonGroupedTabsAlphabetically();
+        collapseAllGroups();
     });
 }
 

@@ -1,0 +1,33 @@
+node_modules
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# misc
+/.DS_Store
+/*.pem
+
+# debug
+/tabgrouper/npm-debug.log*
+/tabgrouper/yarn-debug.log*
+/tabgrouper/yarn-error.log*
+/tabgrouper/.pnpm-debug.log*
+
+#tabgrouper/ local env files
+/tabgrouper/.env*.local
+/tabgrouper/out/
+/tabgrouper/build/
+/tabgrouper/dist/
+
+#tabgrouper/ plasmo
+/tabgrouper/.plasmo
+
+#tabgrouper/ typescript
+/tabgrouper/.tsbuildinfo

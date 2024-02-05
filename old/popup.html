@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tab Grouper</title>
+    <style>
+        body {
+            width: 400px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 10px;
+            color: #f5f5f5;
+            background-color: #2c2f33;
+        }
+
+        button {
+            margin-top: 10px;
+            color: #f5f5f5;
+            background-color: #004C80;
+            border: none;
+            padding: 10px 20px;
+            text-align: left;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 150ms ease-in-out;
+            width: 200px;
+            flex: 1 0 calc(50% - 10px);
+        }
+
+        button i {
+            width: 20px;
+            display: inline-block;
+        }
+
+        button:nth-child(odd) {
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #007BFF;
+        }
+
+        .contact {
+            text-align: left;
+            padding-top: 10px;
+        }
+
+        .contact-icon {
+            width: 10px;
+            margin: 10px 5px 0;
+        }
+
+        #buttonContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<body>
+    <h1>Tab Grouper</h1>
+    <p>Manage your tabs efficiently.</p>
+    <div id="buttonContainer">
+
+    </div>
+
+    <div class="contact">
+        <a href="https://github.com/codywilliamson/tabgrouper" target="_blank">
+            <img src="assets/github.svg" alt="Github Icon" class="contact-icon">
+        </a>
+        <a href="https://cash.app/$williamsoncody" target="_blank">
+            <img src="assets/cashApp.svg" alt="Cashapp Icon" class="contact-icon">
+        </a>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

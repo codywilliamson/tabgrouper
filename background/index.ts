@@ -8,35 +8,70 @@ chrome.action.onClicked.addListener(() => {
   chrome.runtime.openOptionsPage()
 })
 
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-  console.log(request);
-  switch (request.action) {
-    case "groupTabs":
-      await groupTabs();
-      break;
-    case "ungroupTabs":
-      ungroupTabs();
-      break;
-    case "sortNonGroupedTabsAz":
-      sortNonGroupedTabsAlphabetically();
-      break;
-    case "scrambleTabs":
-      scrambleTabs();
-      break;
-    case "collapseGroups":
-      collapseAllGroups();
-      break;
-    case "expandGroups":
-      expandAllGroups();
-      break;
-    case "closeAllTabs":
-      closeAllTabs();
-      break;
-    case "groupBySubdomain":
-      groupBySubdomain();
-      break;
-    // Add any additional cases here
+const contextMenuActions = {
+  groupTabs: {
+    title: "Group tabs by domain",
+    func: groupTabs
+  },
+  ungroupTabs: {
+    title: "Ungroup all tabs",
+    func: ungroupTabs
+  },
+  sortNonGroupedTabsAz: {
+    title: "Sort non-grouped tab titles A-Z",
+    func: sortNonGroupedTabsAlphabetically
+  },
+  scrambleTabs: {
+    title: "Scramble Tabs",
+    func: scrambleTabs
+  },
+  collapseGroups: {
+    title: "Collapse all groups",
+    func: collapseAllGroups
+  },
+  expandGroups: {
+    title: "Expand all groups",
+    func: expandAllGroups
+  },
+  closeAllTabs: {
+    title: "Close all tabs",
+    func: closeAllTabs
+  },
+  groupBySubdomain: {
+    title: "Group tabs by subdomain",
+    func: groupBySubdomain
   }
+};
+
+chrome.runtime.onInstalled.addListener(() => {
+  Object.entries(contextMenuActions).forEach(([id, { title }]) => {
+    chrome.contextMenus.create({
+      id,
+      title,
+      contexts: ["all"]
+    });
+  });
+});
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  const action = contextMenuActions[info.menuItemId];
+  if (action) {
+    action.func();
+  } else {
+    console.error(`Unrecognized action: ${info.menuItemId}`);
+  }
+});
+
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+  const action = contextMenuActions[request.action];
+  if (action) {
+    await action.func();
+    sendResponse({ status: "success" });
+  } else {
+    console.error(`Unrecognized action: ${request.action}`);
+    sendResponse({ status: "error", message: `Unrecognized action: ${request.action}` });
+  }
+  return true;
 });
 
 // Function to group tabs by domain

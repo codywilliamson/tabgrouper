@@ -1,4 +1,3 @@
-node_modules
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
@@ -10,24 +9,31 @@ node_modules
 # testing
 /coverage
 
+#cache
+.turbo
+
 # misc
-/.DS_Store
-/*.pem
+.DS_Store
+*.pem
 
 # debug
-/tabgrouper/npm-debug.log*
-/tabgrouper/yarn-debug.log*
-/tabgrouper/yarn-error.log*
-/tabgrouper/.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
-#tabgrouper/ local env files
-/tabgrouper/.env*.local
-/tabgrouper/out/
-/tabgrouper/build/
-/tabgrouper/dist/
+# local env files
+.env*
 
-#tabgrouper/ plasmo
-/tabgrouper/.plasmo
+out/
+build/
+dist/
 
-#tabgrouper/ typescript
-/tabgrouper/.tsbuildinfo
+# plasmo - https://www.plasmo.com
+.plasmo
+
+# bpp - http://bpp.browser.market/
+keys.json
+
+# typescript
+.tsbuildinfo
